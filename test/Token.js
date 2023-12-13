@@ -10,7 +10,7 @@ describe("Token",()=>{
     beforeEach(async ()=>{
         //get token from blockchain
         const Token = await ethers.getContractFactory("Token");
-        token = await Token.deploy("My Token","DAPP",1000000);
+        token = await Token.deploy("My Token","DAPP",'1000000');
         accounts = await ethers.getSigners();
         deployer = accounts[0];
         receiver = accounts[1];

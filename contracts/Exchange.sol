@@ -73,7 +73,7 @@ contract Exchange {
     public
     {
         require(balanceOf(_tokenGive,msg.sender)>= _amountGive);
-        orderCount = orderCount + 1;
+        orderCount++;
         orders[orderCount] = _Order(orderCount,msg.sender,_tokenGet,_amountGet,_tokenGive,_amountGive,block.timestamp);
         
         emit Order(orderCount,msg.sender,_tokenGet,_amountGet,_tokenGive,_amountGive,block.timestamp);
