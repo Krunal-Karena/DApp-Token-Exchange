@@ -3,6 +3,8 @@ import config from '../config.json';
 import { useDispatch } from 'react-redux'
 import { loadProvider,loadNetwork,loadAccount,loadTokens,loadExchange } from '../store/interaction';
 
+import Navbar from './Navbar';
+
 function App() {
 
   const dispatch = useDispatch()
@@ -15,8 +17,15 @@ function App() {
     //fetch current network chainid (e.g. hardhat 31337)
     const chainId = await loadNetwork(provider,dispatch);
     
-    //fetch current account & balance
-    await loadAccount(provider,dispatch)
+    // Reload page when network changes
+    window.ethereum.on('chainChanged', () => {
+      window.location.reload()
+    })
+
+    //fetch current account & balance from mwtamask when changed
+    window.ethereum.on('accountsChanged',()=>{
+      loadAccount(provider,dispatch)
+    })
 
     //load Token smart contract
     const DApp = config[chainId].DApp
@@ -35,7 +44,7 @@ function App() {
   return (
     <div>
 
-      {/* Navbar */}
+      <Navbar />
 
       <main className='exchange grid'>
         <section className='exchange__section--left grid'>
