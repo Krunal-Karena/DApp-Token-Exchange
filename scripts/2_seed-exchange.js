@@ -70,7 +70,7 @@ async function main() {
     result = await transaction.wait()
     console.log(`Made order from ${user1.address}\n`);
     
-    // await wait(2);
+    // await wait(5);
 
     //user1 cancel order
     orderId = result.events[0].args.id;

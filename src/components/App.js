@@ -1,24 +1,32 @@
 import { useEffect } from 'react';
-import { ethers } from 'ethers';
 import config from '../config.json';
-import '../App.css';
-import TOKEN_ABI from "../abis/Token.json"
+import { useDispatch } from 'react-redux'
+import { loadProvider,loadNetwork,loadAccount,loadTokens,loadExchange } from '../store/interaction';
 
 function App() {
 
+  const dispatch = useDispatch()
+
   const loadBlockchainData = async () => {
-    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' })
-    console.log(accounts[0])
+    
+    // connect ethers to blockchain
+    const provider = loadProvider(dispatch)
 
-    const provider = new ethers.providers.Web3Provider(window.ethereum)
-    const { chainId } = await provider.getNetwork()
-    console.log(chainId)
+    //fetch current network chainid (e.g. hardhat 31337)
+    const chainId = await loadNetwork(provider,dispatch);
+    
+    //fetch current account & balance
+    await loadAccount(provider,dispatch)
 
-    const token = new ethers.Contract(config[chainId].DApp.address, TOKEN_ABI, provider)
-    console.log(token.address)
-    const symbol = await token.symbol()
-    console.log(symbol)
-  }
+    //load Token smart contract
+    const DApp = config[chainId].DApp
+    const mETH = config[chainId].mETH
+    await loadTokens(provider,[DApp.address,mETH.address],dispatch)
+
+    //load exchange smart contract
+    const exchangeConfig = config[chainId].exchange
+    await loadExchange(provider,exchangeConfig.address,dispatch)
+}
 
   useEffect(()=>{
     loadBlockchainData()
