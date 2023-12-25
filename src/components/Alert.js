@@ -6,7 +6,7 @@ import config from '../config.json';
 const Alert = () => {
    const alertRef = useRef(null)
 
-   const network = useSelector(state => state.provider.network)
+   const chainId = useSelector(state => state.provider.chainId)
    const account = useSelector(state => state.provider.account)
    const isPending = useSelector(state => state.exchange.transaction.isPending)
    const isError = useSelector(state => state.exchange.transaction.isError)
@@ -41,7 +41,7 @@ const Alert = () => {
             <div className="alert alert--remove" onClick={removeHandler} ref={alertRef}>
                <h1>Transaction Successful</h1>
                <a
-                  href={config[network] ? `${config[network].explorerURL}/tx/${events[0].transactionHash}` : '#'}
+                  href={config[chainId] ? `${config[chainId].explorerURL}/tx/${events[0].transactionHash}` : '#'}
                   target='_blank'
                   rel='noreferrer'
                >
