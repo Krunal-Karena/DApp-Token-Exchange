@@ -32,3 +32,7 @@ Welcome to the DApp Token Exchange, a decentralized application that empowers us
    npm run start
    ```
 
+## Demo Video
+
+https://github.com/Krunal-Karena/DApp-Token-Exchange/assets/99881021/254975fb-cd71-4a00-b67f-c2c6b78e3d47
+
